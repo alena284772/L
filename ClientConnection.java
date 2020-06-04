@@ -223,14 +223,16 @@ public class ClientConnection {
     public Command wait_answer(SocketChannel outcoming) {
         Command command00=new Command();
         System.out.println("Answer from server:");
-        try {
-            Thread.sleep(1000);
-            command00.setAnswer(this.read_answer(outcoming).getAnswer());
-            System.out.println(command00.getAnswer());
-        } catch (IOException e) {
-            System.out.println("Server did not send an answer");
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        while(command00.getAnswer()==null) {
+            try {
+                Thread.sleep(1000);
+                command00.setAnswer(this.read_answer(outcoming).getAnswer());
+                System.out.println(command00.getAnswer());
+            } catch (IOException e) {
+                //System.out.println("Server did not send an answer");
+            } catch (InterruptedException e) {
+                //e.printStackTrace();
+            }
         }
         return command00;
     }
